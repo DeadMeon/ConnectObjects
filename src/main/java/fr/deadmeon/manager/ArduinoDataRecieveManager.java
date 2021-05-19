@@ -1,10 +1,10 @@
 package fr.deadmeon.manager;
 
 
-import fr.deadmeon.connectobjects.entity.ArduinoEntity;
-import fr.deadmeon.connectobjects.pattern.Observable;
-import fr.deadmeon.connectobjects.pattern.Observateur;
-import fr.deadmeon.connectobjects.utils.MulticastUDP;
+import fr.deadmeon.entity.ArduinoEntity;
+import fr.deadmeon.pattern.Observable;
+import fr.deadmeon.pattern.Observateur;
+import fr.deadmeon.utils.MulticastUDP;
 
 import java.io.IOException;
 import java.util.ArrayList;

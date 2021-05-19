@@ -1,6 +1,6 @@
 package fr.deadmeon.entity;
 
-import fr.deadmeon.connectobjects.utils.KeyGenerator;
+import fr.deadmeon.utils.KeyGenerator;
 
 public class EntityArduinoMKRWIFI1010 extends ArduinoEntity {
     public EntityArduinoMKRWIFI1010(String key) {

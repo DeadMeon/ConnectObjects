@@ -3,7 +3,7 @@ package fr.deadmeon.utils;
 import java.io.*;
 import java.net.*;
 
-import fr.deadmeon.connectobjects.manager.ArduinoDataRecieveManager;
+import fr.deadmeon.manager.ArduinoDataRecieveManager;
 
 
 public class MulticastUDP {
@@ -47,24 +47,5 @@ public class MulticastUDP {
 
     public static String formatting(String key, String msg) {
         return key + separator + msg;
-    }
-
-    public static void main(String[] args) {
-        Thread thread = new Thread(new ArduinoDataRecieveManager());
-        thread.start();
-
-        Thread thread2 = new Thread(new Runnable() {
-            public void run() {
-                while (true) {
-                    try {
-                        //mUDP.send("hello");  // formatting("tnaIntxjMHrDxsRwOymLV","hello")
-                        Thread.sleep(5000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread2.start();
     }
 }

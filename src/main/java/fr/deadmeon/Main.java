@@ -1,9 +1,9 @@
 package fr.deadmeon;
 
-import fr.deadmeon.connectobjects.entity.EntityArduinoMKRWIFI1010;
-import fr.deadmeon.connectobjects.manager.ArduinoDataRecieveManager;
-import fr.deadmeon.connectobjects.manager.TwitchIntegrationManager;
-import fr.deadmeon.connectobjects.request.TwitchIntegration.Follow;
+import fr.deadmeon.entity.EntityArduinoMKRWIFI1010;
+import fr.deadmeon.manager.ArduinoDataRecieveManager;
+import fr.deadmeon.manager.TwitchIntegrationManager;
+import fr.deadmeon.request.TwitchIntegration.*;
 
 public class Main {
     public static void main(String[] args) {

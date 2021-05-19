@@ -1,6 +1,6 @@
 package fr.deadmeon.request.TwitchIntegration;
 
-import fr.deadmeon.connectobjects.pattern.Observable;
+import fr.deadmeon.pattern.Observable;
 
 import java.util.Objects;
 

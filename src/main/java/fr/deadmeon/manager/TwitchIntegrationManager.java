@@ -2,7 +2,7 @@ package fr.deadmeon.manager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import fr.deadmeon.connectobjects.request.TwitchIntegration.*;
+import fr.deadmeon.request.TwitchIntegration.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
