@@ -14,9 +14,9 @@ public class UdpRequete implements Runnable {
             .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(TARGET_KEY_LENGTH)
             .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
             
-    private DatagramSocket socket;
-    private InetAddress address;
-    private String host;
+    private final DatagramSocket socket;
+    private final InetAddress address;
+    private final String host;
 
     private byte[] buf;
 
@@ -56,8 +56,7 @@ public class UdpRequete implements Runnable {
         socket.setSoTimeout(TIMEOUT_RECEIVE);
         socket.receive(packet);
 
-        String received = new String(packet.getData(), 0, packet.getLength());
-        return received;
+        return new String(packet.getData(), 0, packet.getLength());
     }
 
     public void close() {
@@ -106,12 +105,12 @@ public class UdpRequete implements Runnable {
                     thread.start();
                 }
                 Thread.sleep(20000);
-            } while (!(scannedNetworks.stream().anyMatch(x -> (x.isReachable == true))));
+            } while (scannedNetworks.stream().noneMatch(x -> (x.isReachable)));
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        scannedNetworks.stream().filter(x -> x.isReachable).forEach(x -> arduinoList.add(x));
-        arduinoList.stream().forEach(x -> System.out.println(x.host));
+        scannedNetworks.stream().filter(x -> x.isReachable).forEach(arduinoList::add);
+        arduinoList.forEach(x -> System.out.println(x.host));
     }
 }

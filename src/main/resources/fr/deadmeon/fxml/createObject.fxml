@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<AnchorPane fx:id="fond" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.deadmeon.controller.createObjectController">
+    <children>
+        <Label layoutX="286.0" layoutY="92.0" text="Name" AnchorPane.bottomAnchor="500.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="75.0" />
+        <TextField fx:id="name" layoutX="356.0" layoutY="120.0" AnchorPane.bottomAnchor="460.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="105.0" />
+        <Label layoutX="286.0" layoutY="183.0" text="Type" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="550.0" AnchorPane.topAnchor="175.0" />
+        <ChoiceBox fx:id="types" layoutX="355.0" layoutY="200.0" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="550.0" AnchorPane.topAnchor="205.0" />
+        <Label text="Carte" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="325.0" AnchorPane.topAnchor="175.0" />
+        <ChoiceBox fx:id="cartes" layoutX="326.0" layoutY="200.0" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="325.0" AnchorPane.topAnchor="205.0" />
+      <Label layoutX="550.0" layoutY="188.0" text="Nombres de Pin" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="175.0" />
+      <Spinner fx:id="nbPin" layoutX="551.0" layoutY="200.0" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="205.0" />
+      <Label layoutX="100.0" layoutY="283.0" text="Intégration" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="275.0" />
+      <TabPane layoutX="100.0" layoutY="360.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="305.0">
+        <tabs>
+          <Tab text="Twitch">
+               <content>
+                  <FlowPane hgap="25.0" prefHeight="200.0" prefWidth="200.0" vgap="25.0">
+                     <children>
+                        <CheckBox fx:id="IntegrationTwitchFollow" mnemonicParsing="false" text="Follow" />
+                        <CheckBox fx:id="IntegrationTwitchSub" layoutX="35.0" layoutY="35.0" mnemonicParsing="false" text="Subscription" />
+                     </children>
+                     <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </padding>
+                  </FlowPane>
+               </content>
+          </Tab>
+            <Tab text="Autres">
+               <content>
+                  <FlowPane hgap="25.0" prefHeight="200.0" prefWidth="200.0" vgap="25.0">
+                     <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                     </padding>
+                     <children>
+                        <Label text="Prochainement" />
+                     </children>
+                  </FlowPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Button layoutX="674.0" layoutY="506.0" mnemonicParsing="false" onAction="#onCreate" text="Create" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+    </children>
+</AnchorPane>

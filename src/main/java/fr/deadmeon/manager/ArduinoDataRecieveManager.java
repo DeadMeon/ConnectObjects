@@ -1,22 +1,36 @@
 package fr.deadmeon.manager;
 
-
+import com.google.gson.reflect.TypeToken;
 import fr.deadmeon.entity.ArduinoEntity;
 import fr.deadmeon.pattern.Observable;
 import fr.deadmeon.pattern.Observateur;
+import fr.deadmeon.utils.FileUtilities;
+import fr.deadmeon.utils.KeyGenerator;
 import fr.deadmeon.utils.MulticastUDP;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArduinoDataRecieveManager implements Runnable, Observateur {
+    private static final String FILEPATH = FileUtilities.LOCAL_BIN_SAVE_PATH + "arduinoManger.dat";
+
     private final MulticastUDP multicast;
-    private final List<ArduinoEntity> arduinoEntities = new ArrayList<>();
+    private final ArrayList<ArduinoEntity> arduinoEntities;
+    private final String key;
+
+
 
     public ArduinoDataRecieveManager(){
         multicast = new MulticastUDP();
-        // TODO: If le fichier .json avec les objets existe alors le chargé
+        Type arduinoEntitiesType = new TypeToken<ArrayList<ArduinoEntity>>(){}.getType();
+        arduinoEntities = (ArrayList<ArduinoEntity>) FileUtilities.initWithFile(
+                FILEPATH,
+                new ArrayList<ArduinoEntity>(),
+                arduinoEntitiesType);
+        key = new KeyGenerator().getKey();
     }
 
 
@@ -25,7 +39,9 @@ public class ArduinoDataRecieveManager implements Runnable, Observateur {
         return arduinoEntities;
     }
 
-
+    public String getKey() {
+        return key;
+    }
 
     public boolean containEntity(ArduinoEntity entity) { return getArduinoEntities().contains(entity); }
 
@@ -46,6 +62,14 @@ public class ArduinoDataRecieveManager implements Runnable, Observateur {
                 .orElse(null);
     }
 
+    public void save() {
+        if (arduinoEntities.isEmpty()) {
+            FileUtilities.deleteFile(FILEPATH);
+        } else {
+            FileUtilities.writeInFile(FILEPATH, FileUtilities.createJson(arduinoEntities));
+        }
+    }
+
 
 
     @Override
@@ -54,7 +78,7 @@ public class ArduinoDataRecieveManager implements Runnable, Observateur {
                 .filter(x -> x.containOnWatch(o.getObjectType()))
                 .forEach(x -> {
                     try {
-                        multicast.send(MulticastUDP.formatting(x.getKey(), o.getMessageToSend()));
+                        multicast.send(getKey(), x.getKey(), o.getMessageToSend());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -64,17 +88,30 @@ public class ArduinoDataRecieveManager implements Runnable, Observateur {
     @Override
     public void run() {
         try {
-            while (true) {
-                String received = multicast.receive();
-                System.out.println("Received: " + received);
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    String received = multicast.receive();
+                    if (multicast.isToMe(getKey(), received))
+                        System.out.println("Received: " + multicast.getData(received));
+                } catch (SocketTimeoutException e) {
+                    arduinoEntities.forEach(x -> {
+                        try {
+                            multicast.send(getKey(), x.getKey(),"SERVER_STILLCONNECTED");
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            close();
         }
     }
 
     public void close() {
         multicast.close();
-        // Todo : Save la liste des arduinos enregistré dans la liste
+        save();
     }
 }

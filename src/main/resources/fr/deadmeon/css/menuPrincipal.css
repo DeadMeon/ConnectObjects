@@ -1,0 +1,77 @@
+.root {
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 17;
+}
+
+.root > .button {
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #EEEEEE;
+}
+
+.root > .button:hover {
+    -fx-background-radius: 40 40 40 40;
+    -fx-background-color: #AAAAAA;
+}
+
+.root > .button:pressed {
+     -fx-background-radius: 40 40 40 40;
+     -fx-background-color: #777777;
+}
+
+
+
+
+
+.label {
+    -fx-text-fill: #eeeeee;
+}
+
+
+
+
+
+#optionNavBar {
+    -fx-background-color: #62438C;
+}
+
+#optionTitre {
+    -fx-font-family: "Regular 400";
+    -fx-font-size: 25;
+}
+
+#optionNavBar > .button {
+    -fx-background-color: #7C56B3;
+    -fx-background-radius: 40 0 0 40;
+    -fx-start-margin: 20;
+    -fx-text-fill: #eeeeee;
+}
+
+#optionNavBar > .button:hover {
+    -fx-background-color: #9768D9;
+}
+
+#optionNavBar > .button:pressed {
+    -fx-background-color: #35254D;
+}
+
+
+
+
+
+#mainPanel, #mainPanelScroll {
+    -fx-background-color: #4D4DFF;
+}
+
+#mainPanel > .button {
+    -fx-background-color: #4545E6;
+    -fx-background-radius: 10 10 10 10;
+    -fx-text-fill: #eeeeee;
+}
+
+#mainPanel > .button:hover {
+    -fx-background-color: #3A68E8;
+}
+
+#mainPanel > .button:pressed {
+    -fx-background-color: #3939BF;
+}

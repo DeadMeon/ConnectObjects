@@ -2,7 +2,9 @@ package fr.deadmeon.manager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import fr.deadmeon.data.TwitchIntegrationSave;
 import fr.deadmeon.request.TwitchIntegration.*;
+import fr.deadmeon.utils.FileUtilities;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,28 +12,29 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class TwitchIntegrationManager implements Runnable {
+    private static final String CLIENT_ID = "cx8n4r6nnjkz98l1be5lkmm9lvv8xa";
+    private static final String FILEPATH = FileUtilities.LOCAL_BIN_SAVE_PATH + "twitchIntegration.dat";
+    private boolean isActive = false;
 
-
-    private boolean isActive = true;
-    private String client_id = "cx8n4r6nnjkz98l1be5lkmm9lvv8xa";
-    private String token = "n3r2vhq5286dmc6cdauwlo4fnza3mc";
+    private final ArduinoDataRecieveManager arduinoDataRecieveManager;
+    private final TwitchIntegrationSave save;
+    private String token; // = "n3r2vhq5286dmc6cdauwlo4fnza3mc";
     private String broadcaster_id;
-    private ArduinoDataRecieveManager arduinoDataRecieveManager;
-
     private Subscription subscription;
     private Follow follow;
 
 
 
     public TwitchIntegrationManager(ArduinoDataRecieveManager arduinoDataRecieveManager) {
-        try {
-            this.arduinoDataRecieveManager = arduinoDataRecieveManager;
-            broadcaster_id = validateToken();
-            follow = new Follow();
-            subscription = new Subscription();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.arduinoDataRecieveManager = arduinoDataRecieveManager;
+        save = FileUtilities.initWithFile(
+                FILEPATH,
+                new TwitchIntegrationSave(null, new Subscription(), new Follow()),
+                TwitchIntegrationSave.class);
+
+        follow = save.getFollow();
+        subscription = save.getSubscription();
+        setToken(save.getToken());
     }
 
 
@@ -44,18 +47,28 @@ public class TwitchIntegrationManager implements Runnable {
         isActive = active;
     }
 
-    public Subscription getSubscription() {
-        return subscription;
+    public void setToken(String token) {
+        if (token != null) {
+            this.token = token;
+            try {
+                String validateToken = validateToken();
+                if (!validateToken.equals("Unauthorized 401")) {
+                    broadcaster_id = validateToken;
+                    setActive(true);
+                } else {
+                    this.token = null;
+                }
+            } catch (Exception e) {
+                this.token = null;
+                setActive(false);
+            }
+        }
     }
 
-    public Follow getFollow() {
-        return follow;
+    public boolean isTokenSet() {
+        return token != null;
     }
 
-
-
-
-    // Todo : faire la partie connection via l'interface web et voir si possible de gardé le token dans l'interface web
 
 
     public String validateToken() throws Exception{
@@ -83,7 +96,7 @@ public class TwitchIntegrationManager implements Runnable {
         URL url = new URL("https://api.twitch.tv/helix/subscriptions?broadcaster_id=" + broadcaster_id);
         HttpURLConnection http = (HttpURLConnection)url.openConnection();
         http.setRequestProperty("Authorization", "Bearer " + token);
-        http.setRequestProperty("Client-Id", client_id);
+        http.setRequestProperty("Client-Id", CLIENT_ID);
 
         int responseCode = http.getResponseCode();
 
@@ -104,16 +117,17 @@ public class TwitchIntegrationManager implements Runnable {
             }
         } else {
             System.out.println(responseCode);
+            setToken(token);
         }
 
         http.disconnect();
     }
 
-    public void runFollow() throws Exception{
+    public void runFollow() throws Exception {
         URL url = new URL("https://api.twitch.tv/helix/users/follows?to_id=" + broadcaster_id);
         HttpURLConnection http = (HttpURLConnection)url.openConnection();
         http.setRequestProperty("Authorization", "Bearer " + token);
-        http.setRequestProperty("Client-Id", client_id);
+        http.setRequestProperty("Client-Id", CLIENT_ID);
 
         int responseCode = http.getResponseCode();
 
@@ -134,22 +148,37 @@ public class TwitchIntegrationManager implements Runnable {
             }
         } else {
             System.out.println(responseCode);
+            setToken(token);
         }
 
         http.disconnect();
     }
 
 
+
+    private void saveState() {
+        save.setFollow(follow);
+        save.setSubscription(subscription);
+        save.setToken(token);
+        FileUtilities.writeInFile(FILEPATH, FileUtilities.createJson(save));
+    }
+
     @Override
     public void run() {
-        while(isActive) {
-            try {
+        try {
+            while(!Thread.currentThread().isInterrupted()) {
                 Thread.sleep(1000);
-                runSub();
-                runFollow();
-            } catch (Exception e) {
-                e.printStackTrace();
+                if (isActive()) {
+                    runSub();
+                    runFollow();
+                }
             }
+        } catch (InterruptedException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            saveState();
         }
+
     }
 }

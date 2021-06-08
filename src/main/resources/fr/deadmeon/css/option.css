@@ -1,0 +1,66 @@
+.root {
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 18;
+    -fx-background-color: #62438C;
+}
+
+
+
+#ConnectObjects {
+    -fx-font-family: "Regular 400";
+    -fx-font-size: 24;
+}
+
+.label {
+    -fx-text-fill: #ffffff;
+}
+
+.label > .toggle-button {
+    -fx-background-color: #9768D9;
+    -fx-background-radius: 20;
+    -fx-start-margin: 20;
+    -fx-text-fill: #eeeeee;
+}
+
+.label > .toggle-button:hover, .label > .toggle-button:selected:hover {
+    -fx-background-color: #7C56B3;
+}
+
+.label > .toggle-button:selected {
+    -fx-background-color: #543b79;
+}
+
+
+
+
+
+#fond > .toggle-button {
+    -fx-background-color: #7C56B3;
+    -fx-background-radius: 40 0 0 40;
+    -fx-start-margin: 20;
+    -fx-text-fill: #eeeeee;
+}
+
+#fond > .toggle-button:hover {
+    -fx-background-color: #9768D9;
+}
+
+#fond > .toggle-button:pressed {
+    -fx-background-color: #35254D;
+}
+
+
+
+.button {
+    -fx-background-color: #4545E6;
+    -fx-background-radius: 10 10 10 10;
+    -fx-text-fill: #eeeeee;
+}
+
+.button:hover {
+    -fx-background-color: #3A68E8;
+}
+
+.button:pressed {
+    -fx-background-color: #3939BF;
+}

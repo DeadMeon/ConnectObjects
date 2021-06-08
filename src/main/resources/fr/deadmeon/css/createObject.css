@@ -1,0 +1,44 @@
+.root, *.tab-header-background  {
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 18;
+    -fx-background-color: #62438C;
+}
+
+.label {
+    -fx-text-fill: #ffffff;
+}
+
+.choice-box, .choice-box .context-menu, .tab-pane {
+    -fx-background-color: #9768D9;
+    -fx-background-radius: 10;
+    -fx-text-fill: #eeeeee;
+}
+
+.choice-box:hover, .choice-box .menu-item:focused {
+    -fx-background-color: #7C56B3;
+}
+
+.choice-box:pressed, .choice-box .menu-item:selected {
+    -fx-background-color: #543b79;
+}
+
+
+.check-box {
+    -fx-text-fill: #eeeeee;
+}
+
+
+
+.button {
+    -fx-background-color: #4545E6;
+    -fx-background-radius: 10 10 10 10;
+    -fx-text-fill: #eeeeee;
+}
+
+.button:hover {
+    -fx-background-color: #3A68E8;
+}
+
+.button:pressed {
+    -fx-background-color: #3939BF;
+}
