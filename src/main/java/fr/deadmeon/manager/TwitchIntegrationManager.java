@@ -18,7 +18,7 @@ public class TwitchIntegrationManager implements Runnable {
 
     private final ArduinoDataRecieveManager arduinoDataRecieveManager;
     private final TwitchIntegrationSave save;
-    private String token; 
+    private String token; // = "n3r2vhq5286dmc6cdauwlo4fnza3mc";
     private String broadcaster_id;
     private Subscription subscription;
     private Follow follow;
